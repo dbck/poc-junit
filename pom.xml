@@ -12,6 +12,7 @@
     <groupId>de.dbck.poc</groupId>
     <artifactId>poc-bom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath></relativePath>
   </parent>
 
   <properties>
