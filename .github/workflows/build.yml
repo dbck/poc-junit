@@ -19,15 +19,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Evaluate java version from pom
-      run: echo "JAVA_VERSION=$(mvn ${MVN_CLI_OPTIONS} help:evaluate -Dexpression=maven.compiler.target -q -DforceStdout)" >> $GITHUB_ENV
-      env:
-        MVN_CLI_OPTIONS: -s .github/.m2/settings.xml --quiet --batch-mode --no-transfer-progress
-
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
-        java-version: ${{ env.JAVA_VERSION }}
+        java-version: 11
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
 
     - name: Prepare version
@@ -42,12 +37,12 @@ jobs:
     - name: Build, test and deploy with maven
       run: mvn ${MVN_CLI_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" deploy
       env:
-        MVN_CLI_OPTIONS: -s .github/.m2/settings.xml --quiet --batch-mode --no-transfer-progress
+        MVN_CLI_OPTIONS: --quiet --batch-mode --no-transfer-progress
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Quality check with maven and sonar
       run: mvn ${MVN_CLI_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" -Pquality verify # Test already run in previous step
       env:
-        MVN_CLI_OPTIONS: -s .github/.m2/settings.xml --quiet --batch-mode --no-transfer-progress
+        MVN_CLI_OPTIONS: --quiet --batch-mode --no-transfer-progress
         GITHUB_TOKEN: ${{ github.token }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
