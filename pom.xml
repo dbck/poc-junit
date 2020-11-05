@@ -11,7 +11,7 @@
   <parent>
     <groupId>de.dbck.poc</groupId>
     <artifactId>poc-bom</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
@@ -21,6 +21,13 @@
     <sha1/>
     <changelist>-SNAPSHOT</changelist>
   </properties>
+
+  <repositories>
+      <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/dbck/*</url>
+      </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
