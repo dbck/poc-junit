@@ -6,7 +6,7 @@
   <parent>
     <groupId>de.dbck.poc</groupId>
     <artifactId>poc-bom</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
@@ -22,6 +22,13 @@
     <sha1 />
     <changelist>-SNAPSHOT</changelist>
   </properties>
+
+  <scm>
+    <url>${project.url}</url>
+    <connection>scm:git:${project.scm.url}.git</connection>
+    <developerConnection>${project.scm.connection}</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
   <repositories>
     <repository>
@@ -104,8 +111,8 @@
         <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <!-- <?m2e ignore?>-->
-        <?m2e execute onConfiguration,onIncremental?>  
+        <!-- <?m2e ignore?> -->
+        <?m2e execute onConfiguration,onIncremental?>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
