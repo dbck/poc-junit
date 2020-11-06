@@ -2,18 +2,19 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>poc-junit</artifactId>
-  <version>${revision}${sha1}${changelist}</version>
-  <name>poc-junit</name>
-  <description>Junit Test Project</description>
-  <url>https://github.com/dbck/poc-junit</url>
 
   <parent>
     <groupId>de.dbck.poc</groupId>
     <artifactId>poc-bom</artifactId>
-    <version>0.0.2</version>
-    <relativePath /> <!-- lookup parent from repository -->
+    <version>0.0.6</version>
   </parent>
+
+  <artifactId>poc-junit</artifactId>
+  <!--<version>${revision}${sha1}${changelist}</version>-->
+  <version>0.0.1-SNAPSHOT</version>
+  <name>poc-junit</name>
+  <description>Junit Test Project</description>
+  <url>https://github.com/dbck/poc-junit</url>
 
   <properties>
     <!-- Change revision after release manually -->
@@ -24,8 +25,8 @@
 
   <repositories>
       <repository>
-          <id>github</id>
-          <url>https://maven.pkg.github.com/dbck/*</url>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/content/groups/public/</url>
       </repository>
   </repositories>
 
@@ -104,7 +105,7 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <profiles>
     <profile>
       <id>github</id>
