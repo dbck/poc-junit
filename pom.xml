@@ -23,6 +23,13 @@
     <changelist>-SNAPSHOT</changelist>
   </properties>
 
+  <scm>
+    <url>${project.url}</url>
+    <connection>scm:git:${project.scm.url}.git</connection>
+    <developerConnection>${project.scm.connection}</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
   <repositories>
     <repository>
       <id>ossrh</id>
@@ -104,8 +111,8 @@
         <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <!-- <?m2e ignore?>-->
-        <?m2e execute onConfiguration,onIncremental?>  
+        <!-- <?m2e ignore?> -->
+        <?m2e execute onConfiguration,onIncremental?>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
