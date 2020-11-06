@@ -6,12 +6,12 @@
   <parent>
     <groupId>de.dbck.poc</groupId>
     <artifactId>poc-bom</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.8</version>
+    <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
   <artifactId>poc-junit</artifactId>
-  <!--<version>${revision}${sha1}${changelist}</version>-->
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${revision}${sha1}${changelist}</version>
   <name>poc-junit</name>
   <description>Junit Test Project</description>
   <url>https://github.com/dbck/poc-junit</url>
@@ -19,15 +19,15 @@
   <properties>
     <!-- Change revision after release manually -->
     <revision>0.0.1</revision>
-    <sha1/>
+    <sha1 />
     <changelist>-SNAPSHOT</changelist>
   </properties>
 
   <repositories>
-      <repository>
-          <id>ossrh</id>
-          <url>https://oss.sonatype.org/content/groups/public/</url>
-      </repository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/groups/public/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -103,6 +103,12 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <!-- <?m2e ignore?>-->
+        <?m2e execute onConfiguration,onIncremental?>  
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 
@@ -120,26 +126,32 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jxr-plugin</artifactId>
+            <version>${maven-jxr-plugin.version}</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${maven-checkstyle-plugin.version}</version>
           </plugin>
           <plugin>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>${com.github.spotbugs.spotbugs-maven-plugin.version}</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-pmd-plugin</artifactId>
+            <version>${maven-pmd-plugin.version}</version>
           </plugin>
           <plugin>
             <groupId>org.owasp</groupId>
             <artifactId>dependency-check-maven</artifactId>
+            <version>${org.owasp.dependency-check-maven.version}</version>
           </plugin>
           <plugin>
             <groupId>org.sonarsource.scanner.maven</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
+            <version>${org.sonarsource.scanner.maven.sonar-maven-plugin.version}</version>
           </plugin>
         </plugins>
       </build>
@@ -151,35 +163,27 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
+            <version>${maven-source-plugin.version}</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven-javadoc-plugin.version}</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-scm-plugin</artifactId>
+            <version>${maven-scm-plugin.version}</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>${maven-enforcer-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>enforce-no-snapshots</id>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <configuration>
-                  <rules>
-                    <requireReleaseDeps>
-                      <message>No Snapshots Allowed! Please check dependencies in pom.xml!</message>
-                    </requireReleaseDeps>
-                  </rules>
-                  <fail>true</fail>
-                </configuration>
-              </execution>
-            </executions>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven.plugins.maven-gpg-plugin.version}</version>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>${org.sonatype.plugins-nexus-staging-maven-plugin.version}</version>
           </plugin>
         </plugins>
       </build>
