@@ -48,9 +48,9 @@ jobs:
         OSSRH_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_PASSPHRASE }}
 
 
-#    - name: Quality check with maven and sonar
-#      run: mvn ${MAVEN_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" -Pquality verify # Test already run in previous step
-#      env:
-#        MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
-#        GITHUB_TOKEN: ${{ github.token }}
-#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: Quality check with maven and sonar
+      run: mvn ${MAVEN_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" -Pquality verify # Test already run in previous step
+      env:
+        MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
+        GITHUB_TOKEN: ${{ github.token }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
