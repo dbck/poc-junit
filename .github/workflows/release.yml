@@ -25,14 +25,14 @@ jobs:
         gpg-private-key: ${{ secrets.OSSRH_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
         gpg-passphrase: OSSRH_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
-    - name: Prepare version
-      run: |
-        export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
-        echo "CURRENT_BRANCH=${CURRENT_BRANCH}" >> $GITHUB_ENV
-        export REVISION_BRANCH=$([[ ${CURRENT_BRANCH} != "release" && ${CURRENT_BRANCH} != "main" ]] && echo "-${CURRENT_BRANCH}")
-        echo "REVISION_BRANCH=${REVISION_BRANCH}" >> $GITHUB_ENV
-        export REVISION_TYPE=$([[ ${CURRENT_BRANCH} != "release" ]] && echo "-SNAPSHOT")
-        echo "REVISION_TYPE=${REVISION_TYPE}" >> $GITHUB_ENV
+#    - name: Prepare version
+#      run: |
+#        export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
+#        echo "CURRENT_BRANCH=${CURRENT_BRANCH}" >> $GITHUB_ENV
+#        export REVISION_BRANCH=$([[ ${CURRENT_BRANCH} != "release" && ${CURRENT_BRANCH} != "main" ]] && echo "-${CURRENT_BRANCH}")
+#        echo "REVISION_BRANCH=${REVISION_BRANCH}" >> $GITHUB_ENV
+#        export REVISION_TYPE=$([[ ${CURRENT_BRANCH} != "release" ]] && echo "-SNAPSHOT")
+#        echo "REVISION_TYPE=${REVISION_TYPE}" >> $GITHUB_ENV
 
     - name: Build, test and deploy with maven
       run: |
@@ -40,16 +40,18 @@ jobs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         # Build and deploy
-        mvn ${MAVEN_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" -Dusername=${GITHUB_TOKEN} -Prelease clean deploy
+        export CURRENT_DEVELOPMENT_VERSION="$(mvn ${MAVEN_OPTIONS} help:evaluate -Dexpression=project.version -q -DforceStdout)"
+        mvn ${MAVEN_OPTIONS} versions:set -DnewVersion=${CURRENT_DEVELOPMENT_VERSION/-SNAPSHOT/}
+        mvn ${MAVEN_OPTIONS} -Dusername=${GITHUB_TOKEN} -Prelease clean deploy
         # Increment revision of develop branch based on main revision value
-        export NEXT_DEVELOPMENT_VERSION="$(mvn ${MAVEN_OPTIONS} build-helper:parse-version -DgenerateBackupPoms=false -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} help:evaluate -Dexpression=newVersion -q -DforceStdout)"
+        export NEXT_DEVELOPMENT_VERSION="$(mvn ${MAVEN_OPTIONS} build-helper:parse-version -DgenerateBackupPoms=false -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} help:evaluate -Dexpression=newVersion -q -DforceStdout)-SNAPSHOT"
         git reset --hard origin/release
         git fetch --all --tags
         git checkout main
         git reset --hard origin/main
         git pull --all --ff-only
-        mvn ${MAVEN_OPTIONS} build-helper:parse-version versions:set-property -DgenerateBackupPoms=false -Dproperty=revision -DnewVersion=${NEXT_DEVELOPMENT_VERSION}
-        mvn ${MAVEN_OPTIONS} -Dsha1="" -Dchangelist="-SNAPSHOT" compile
+        mvn ${MAVEN_OPTIONS} -DgenerateBackupPoms=false versions:set -DnewVersion=${NEXT_DEVELOPMENT_VERSION}
+        #mvn ${MAVEN_OPTIONS} compile #Only needed if eg. README will be generated which includes the version number 
         git commit -am "Updated revision to ${NEXT_DEVELOPMENT_VERSION}. Prepared for next development iteration." && git push
       env:
         MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
@@ -58,9 +60,9 @@ jobs:
         OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         OSSRH_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_PASSPHRASE }}
 
-    - name: Quality check with maven and sonar
-      run: mvn ${MAVEN_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" -Pquality verify # Test already run in previous step
-      env:
-        MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
-        GITHUB_TOKEN: ${{ github.token }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#    - name: Quality check with maven and sonar
+#      run: mvn ${MAVEN_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" -Pquality verify # Test already run in previous step
+#      env:
+#        MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
+#        GITHUB_TOKEN: ${{ github.token }}
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
