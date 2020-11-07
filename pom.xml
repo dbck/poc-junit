@@ -6,7 +6,7 @@
   <parent>
     <groupId>de.dbck.poc</groupId>
     <artifactId>poc-bom</artifactId>
-    <version>1.0.12</version>
+    <version>1.0.14</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
@@ -15,11 +15,6 @@
   <name>poc-junit</name>
   <description>Junit Test Project</description>
   <url>https://github.com/dbck/poc-junit</url>
-
-  <properties>
-    <sonar.projectName>${project.artifactId}</sonar.projectName>
-    <sonar.projectKey>${project.artifactId}</sonar.projectKey>
-  </properties>
 
   <scm>
     <url>${project.url}</url>

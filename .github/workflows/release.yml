@@ -12,8 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+#      with:
+#        fetch-depth: 0
 
     - name: Set up JDK
       uses: actions/setup-java@v1
@@ -60,9 +60,9 @@ jobs:
         OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         OSSRH_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_PASSPHRASE }}
 
-#    - name: Quality check with maven and sonar
-#      run: mvn ${MAVEN_OPTIONS} -Pquality verify # Test already run in previous step
-#      env:
-#        MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
-#        GITHUB_TOKEN: ${{ github.token }}
-#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: Quality check with maven and sonar
+      run: mvn ${MAVEN_OPTIONS} -Pquality verify # Test already run in previous step
+      env:
+        MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
+        GITHUB_TOKEN: ${{ github.token }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
