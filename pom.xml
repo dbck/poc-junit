@@ -21,6 +21,8 @@
     <revision>0.0.2</revision>
     <sha1 />
     <changelist>-SNAPSHOT</changelist>
+    <sonar.projectName>${project.artifactId}</sonar.projectName>
+    <sonar.projectKey>${project.artifactId}</sonar.projectKey>
   </properties>
 
   <scm>
