@@ -29,17 +29,17 @@ jobs:
         gpg-private-key: ${{ secrets.OSSRH_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
         gpg-passphrase: OSSRH_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
-    - name: Prepare version
-      run: |
-        export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
-        echo "CURRENT_BRANCH=${CURRENT_BRANCH}" >> $GITHUB_ENV
-        export REVISION_BRANCH=$([[ ${CURRENT_BRANCH} != "release" && ${CURRENT_BRANCH} != "main" ]] && echo "-${CURRENT_BRANCH}")
-        echo "REVISION_BRANCH=${REVISION_BRANCH}" >> $GITHUB_ENV
-        export REVISION_TYPE=$([[ ${CURRENT_BRANCH} != "release" ]] && echo "-SNAPSHOT")
-        echo "REVISION_TYPE=${REVISION_TYPE}" >> $GITHUB_ENV
+#    - name: Prepare version
+#      run: |
+#        export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
+#        echo "CURRENT_BRANCH=${CURRENT_BRANCH}" >> $GITHUB_ENV
+#        export REVISION_BRANCH=$([[ ${CURRENT_BRANCH} != "release" && ${CURRENT_BRANCH} != "main" ]] && echo "-${CURRENT_BRANCH}")
+#        echo "REVISION_BRANCH=${REVISION_BRANCH}" >> $GITHUB_ENV
+#        export REVISION_TYPE=$([[ ${CURRENT_BRANCH} != "release" ]] && echo "-SNAPSHOT")
+#        echo "REVISION_TYPE=${REVISION_TYPE}" >> $GITHUB_ENV
 
     - name: Build, test and deploy with maven
-      run: mvn ${MAVEN_OPTIONS} -Dsha1="${REVISION_BRANCH}" -Dchangelist="${REVISION_TYPE}" deploy
+      run: mvn ${MAVEN_OPTIONS} deploy
       env:
         MAVEN_OPTIONS: --quiet --batch-mode --no-transfer-progress
         GITHUB_TOKEN: ${{ github.token }}
