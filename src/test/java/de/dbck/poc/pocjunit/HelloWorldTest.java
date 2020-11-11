@@ -2,6 +2,7 @@ package de.dbck.poc.pocjunit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.dbck.poc.pocjunit.HelloWorld;
 import org.junit.jupiter.api.Test;
 
 class HelloWorldTest {
