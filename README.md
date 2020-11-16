@@ -1,31 +1,53 @@
-# Usage
+# Local development environment
+
+## Compile / Install
 
 ```
-mvn test
+mvn install
 ```
 
-# Deploy
+## Quality check
 
 ```
-mvn deploy
+mvn -Dsonar.login=${SONAR_TOKEN} -Pquality verify
 ```
 
-or
+# Deployment
+
+## Local
 
 ```
-mvn deploy -Pgithub
+mvn verify
 ```
 
-or 
+## Snapshot
 
 ```
-mvn deploy -Dregistry=https://maven.pkg.github.com/dbck -Dtoken=GH_TOKEN
+git checkout main
+git push
 ```
 
-## Debug profiles
+## Release
+
+```
+git checkout release
+git merge main
+git push
+git checkout main
+# After release is finished
+git pull
+```
+
+# Debug profiles
 
 ```
 mvn help:active-profiles
+```
+
+## Disable profiles
+
+```
+mvn help:active-profiles -P-github,-ossrh
 ```
 
 # Maintenance
