@@ -7,6 +7,8 @@ on:
       - '*/*'       # matches every branch containing a single '/'
       - '**'        # matches every branch
       - '!release'  # excludes release branch
+  schedule:
+    - cron: "0 20 1 * *"
 
 jobs:
   build:
@@ -16,8 +18,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-#      with:
-#        fetch-depth: 0
 
     - name: Set up JDK
       uses: actions/setup-java@v1
@@ -28,15 +28,6 @@ jobs:
         server-password: OSSRH_PASSWORD # env variable for token in deploy
         gpg-private-key: ${{ secrets.OSSRH_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
         gpg-passphrase: OSSRH_GPG_PASSPHRASE # env variable for GPG private key passphrase
-
-#    - name: Prepare version
-#      run: |
-#        export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
-#        echo "CURRENT_BRANCH=${CURRENT_BRANCH}" >> $GITHUB_ENV
-#        export REVISION_BRANCH=$([[ ${CURRENT_BRANCH} != "release" && ${CURRENT_BRANCH} != "main" ]] && echo "-${CURRENT_BRANCH}")
-#        echo "REVISION_BRANCH=${REVISION_BRANCH}" >> $GITHUB_ENV
-#        export REVISION_TYPE=$([[ ${CURRENT_BRANCH} != "release" ]] && echo "-SNAPSHOT")
-#        echo "REVISION_TYPE=${REVISION_TYPE}" >> $GITHUB_ENV
 
     - name: Build, test and deploy with maven
       run: mvn ${MAVEN_OPTIONS} deploy
