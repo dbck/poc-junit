@@ -6,7 +6,7 @@
   <parent>
     <groupId>de.dbck.poc</groupId>
     <artifactId>poc-bom</artifactId>
-    <version>1.0.25</version>
+    <version>1.0.28</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
@@ -114,6 +114,10 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctor-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
