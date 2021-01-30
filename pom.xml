@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>poc-junit</artifactId>
-  <version>0.0.6-SNAPSHOT</version>
+  <version>0.0.7-SNAPSHOT</version>
   <description>Junit Test Project</description>
   <name>${project.artifactId}</name>
   <url>https://github.com/dbck/${project.artifactId}</url>
